@@ -4,6 +4,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.room.Room
 import com.example.project.api.ApiService
+import com.example.project.local.NewsDataBase
+import com.example.project.local.NewsEntity
+import com.example.project.remote.NewsRemoteMediator
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -22,12 +25,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBeerDatabase(@ApplicationContext context: Context): BeerDatabase {
+    fun provideBeerDatabase(@ApplicationContext context: Context): NewsDataBase {
         return Room.databaseBuilder(
             context,
-            BeerDatabase::class.java,
-            "beers.db"
-        ).build()
+            NewsDataBase::class.java,
+            "newsDatabase.db"
+        ).fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides
@@ -42,15 +46,15 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBeerPager(beerDb: BeerDatabase, beerApi: BeerApi): Pager<Int, BeerEntity> {
+    fun provideBeerPager(newsDb: NewsDataBase, newsApi:ApiService ): Pager<Int, NewsEntity> {
         return Pager(
             config = PagingConfig(pageSize = 20),
-            remoteMediator = BeerRemoteMediator(
-                beerDb = beerDb,
-                beerApi = beerApi
+            remoteMediator = NewsRemoteMediator(
+                newsDb = newsDb,
+                newsApi = newsApi
             ),
             pagingSourceFactory = {
-                beerDb.dao.pagingSource()
+                newsDb.dao.pagingSource()
             }
         )
     }

@@ -17,7 +17,7 @@ class ViewPagerAdapter(fragmentManager: FragmentManager,lifecycle: Lifecycle): F
 
     override fun createFragment(position: Int): Fragment {
         val myINstance:MainFragment
-        myINstance=MainFragment()
+        myINstance= MainFragment()
         val bundle=Bundle()
         when(position){
             0->{

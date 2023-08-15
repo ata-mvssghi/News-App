@@ -4,28 +4,28 @@
    <item
       android:id="@+id/general"
       android:title="Home"
-      android:icon="@drawable/baseline_home_24">
+      >
    </item>
    <item
        android:id="@+id/world"
-       android:icon="@drawable/earth_svgrepo_com"
+
        android:title="world" />
    <item
        android:id="@+id/sports"
-       android:icon="@drawable/baseline_sports_volleyball_24"
+
        android:title="sports" />
    <item
        android:id="@+id/business"
-      android:icon="@drawable/baseline_business_24"
+
       android:title="business">
    </item>
    <item
        android:id="@+id/science"
-       android:icon="@drawable/baseline_science_24"
+
        android:title="science" />
    <item
        android:id="@+id/society"
-      android:icon="@drawable/baseline_people_24"
+
       android:title="society">
 
    </item>
