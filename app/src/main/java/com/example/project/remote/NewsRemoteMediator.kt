@@ -6,6 +6,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import com.example.project.R
 import com.example.project.api.ApiService
 import com.example.project.local.NewsDataBase
 import com.example.project.local.NewsEntity
@@ -15,6 +16,7 @@ import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
 class NewsRemoteMediator(
+    private var section:String?,
     private val newsDb: NewsDataBase,
     private val newsApi: ApiService
 ):RemoteMediator<Int,NewsEntity>(){
@@ -36,16 +38,23 @@ class NewsRemoteMediator(
                         1
                     } else {
                        ++pageNumber
-                        Log.i("mmd","$pageNumber")
+                        Log.i("remote","$pageNumber")
                     }
                 }
             }
-
+            //setting each fragment's specific  constraint for sectuon
+            val queryMap = mutableMapOf<String, String>()
+            if(section== R .string.default_value.toString())
+                section=null
+            section?.let {
+                queryMap["section"] = it
+            }
             val newsList = newsApi.getPhotos(
+                queryMap=queryMap,
                 page = loadKey,
                 pageCount = state.config.pageSize
             )
-            Log.i("mmd","api called with load key=$loadKey")
+            Log.i("remote","api called with load key=$loadKey")
             newsDb.withTransaction {
                 if(loadType == LoadType.REFRESH) {
                     newsDb.dao.clearAll()
@@ -55,7 +64,6 @@ class NewsRemoteMediator(
                     newsDb.dao.upsertAll(newsEntities)
                 }
             }
-
             MediatorResult.Success(
                 endOfPaginationReached = newsList.body()?.response?.results!!.isEmpty()
             )

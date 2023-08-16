@@ -25,7 +25,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBeerDatabase(@ApplicationContext context: Context): NewsDataBase {
+    fun provideNewsDataBase(@ApplicationContext context: Context): NewsDataBase {
         return Room.databaseBuilder(
             context,
             NewsDataBase::class.java,
@@ -36,7 +36,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBeerApi(): ApiService {
+    fun provideNewsApi(): ApiService {
         return Retrofit.Builder()
             .baseUrl(ApiService.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
@@ -46,10 +46,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBeerPager(newsDb: NewsDataBase, newsApi:ApiService ): Pager<Int, NewsEntity> {
+    fun provideNewsPager(newsDb: NewsDataBase, newsApi:ApiService,section: String? ): Pager<Int, NewsEntity> {
         return Pager(
             config = PagingConfig(pageSize = 10),
             remoteMediator = NewsRemoteMediator(
+                section=section,
                 newsDb = newsDb,
                 newsApi = newsApi
             ),

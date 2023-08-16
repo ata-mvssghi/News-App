@@ -14,9 +14,9 @@ class NewsViewHolder(private val binding: ItemBinding) :
         Glide.with(binding.root.context)
             .load(news.image)
             .into(binding.imageView)
-
         binding.titleTv.text = news.title
         binding.descriptionTv.text = news.body
+        binding.authorTv.text=news.author
     }
     companion object {
         fun create(parent: ViewGroup): NewsViewHolder {

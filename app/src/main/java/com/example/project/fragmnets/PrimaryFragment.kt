@@ -33,6 +33,7 @@ class PrimaryFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabsArray[position]
         }.attach()
+
         val navView: NavigationView = binding.navView
         navView.setNavigationItemSelectedListener {
             it.isChecked = true
