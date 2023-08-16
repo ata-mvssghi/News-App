@@ -48,7 +48,7 @@ object AppModule {
     @Singleton
     fun provideBeerPager(newsDb: NewsDataBase, newsApi:ApiService ): Pager<Int, NewsEntity> {
         return Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(pageSize = 10),
             remoteMediator = NewsRemoteMediator(
                 newsDb = newsDb,
                 newsApi = newsApi

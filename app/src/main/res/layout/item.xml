@@ -37,13 +37,11 @@
 
         <TextView
             android:id="@+id/descriptionTv"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/titleTv"
-            android:layout_alignParentEnd="true"
             android:layout_marginStart="12dp"
             android:layout_marginTop="31dp"
-            android:layout_marginEnd="192dp"
             android:layout_toEndOf="@+id/imageView"
             android:text="TextView"
             android:textColor="#71E4A8"
@@ -57,7 +55,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="9dp"
             android:layout_marginEnd="42dp"
-            android:text="TextView"
+            android:text="kjkk"
             android:textColor="#F6F5F5"
             android:textStyle="bold" />
 

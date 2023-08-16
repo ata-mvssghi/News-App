@@ -28,12 +28,9 @@ interface ApiService {
     @GET("search?show-fields=headline,trailText,thumbnail,publication&api-key=953f8d3f-32dd-40b0-b440-85b51226b148")
     suspend fun getPhotos(
         @Query("page") page: Int,
-        @Query("per_page") pageCount: Int
+        @Query("page-size") pageCount: Int
     ):retrofit2.Response<com.example.project.remote.Response>
     companion object {
         const val BASE_URL = "https://content.guardianapis.com/"
     }
-}
-object MyAPi {
-    val retrofitService: ApiService by lazy { retrofit.create(ApiService::class.java) }
 }

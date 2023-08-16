@@ -1,5 +1,6 @@
 package com.example.project.remote
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -17,12 +18,13 @@ class NewsRemoteMediator(
     private val newsDb: NewsDataBase,
     private val newsApi: ApiService
 ):RemoteMediator<Int,NewsEntity>(){
-
+    var pageNumber=1
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, NewsEntity>
     ): MediatorResult {
         return try {
+            Log.i("pahoo","jkhgdsfghj")
             val loadKey = when(loadType) {
                 LoadType.REFRESH -> 1
                 LoadType.PREPEND -> return MediatorResult.Success(
@@ -33,7 +35,8 @@ class NewsRemoteMediator(
                     if(lastItem == null) {
                         1
                     } else {
-                        (lastItem.id / state.config.pageSize) + 1
+                       ++pageNumber
+                        Log.i("mmd","$pageNumber")
                     }
                 }
             }
@@ -42,7 +45,7 @@ class NewsRemoteMediator(
                 page = loadKey,
                 pageCount = state.config.pageSize
             )
-
+            Log.i("mmd","api called with load key=$loadKey")
             newsDb.withTransaction {
                 if(loadType == LoadType.REFRESH) {
                     newsDb.dao.clearAll()
@@ -54,7 +57,7 @@ class NewsRemoteMediator(
             }
 
             MediatorResult.Success(
-                endOfPaginationReached = newsList.isSuccessful
+                endOfPaginationReached = newsList.body()?.response?.results!!.isEmpty()
             )
         } catch(e: IOException) {
             MediatorResult.Error(e)
