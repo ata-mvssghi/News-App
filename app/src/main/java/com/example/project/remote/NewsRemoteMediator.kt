@@ -14,15 +14,15 @@ import com.example.project.local.NewsDataBase
 import com.example.project.local.NewsEntity
 import com.example.project.mappers.toNewsEntity
 import retrofit2.HttpException
+import retrofit2.Response
 import java.io.IOException
-
+private lateinit var newsList:Response<com.example.project.remote.Response>
 @OptIn(ExperimentalPagingApi::class)
 class NewsRemoteMediator(
     private var section:String?,
     private val newsDb: NewsDataBase,
-    private val newsApi: ApiService
+    private val newsApi: ApiService,
 ):RemoteMediator<Int,NewsEntity>(){
-     var lastLoadKey=1
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, NewsEntity>,
@@ -44,24 +44,31 @@ class NewsRemoteMediator(
             }
             Log.i("remote"," page is =${ApiService.page} and the load key is $loadKey")
             //setting each fragment's specific  constraint for sectuon
-            val queryMap = mutableMapOf<String, String>()
             if(section== "some default value"){
                 section=null
              }
-            Log.i("ifo","section is $section")
-            section?.let {
-                queryMap["section"] = it
+            Log.i("info","section is $section")
+            if(section!=null) {
+                 newsList = newsApi.getPhotos(
+                    section = section,
+                    page = loadKey,
+                    pageCount = state.config.pageSize
+                )
+                Log.i("remote","first get called")
             }
-            val newsList = newsApi.getPhotos(
-                queryMap=queryMap,
-                page = loadKey,
-                pageCount = state.config.pageSize
-            )
-            Log.i("remote","api called with load key=$loadKey&with the section of=${queryMap.values}")
+            else {
+                 newsList = newsApi.getPhotosWithOutSection(
+                    page = loadKey,
+                    pageCount = state.config.pageSize
+                )
+                Log.i("remote","second get called")
+            }
+            Log.i("remote","api called with load key=$loadKey&with the section of=${section}")
             newsDb.withTransaction {
                 val newsEntities = newsList.body()?.response?.results?.map { it.toNewsEntity() }
                 if (newsEntities != null) {
                     newsDb.dao.upsertAll(newsEntities)
+                    Log.i("remote","upserted successfully")
                 }
             }
             MediatorResult.Success(
