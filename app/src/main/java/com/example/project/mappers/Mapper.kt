@@ -9,7 +9,8 @@ import com.example.project.remote.NewsFeedDto
             image = fields.thumbnail,
             title = fields.headline,
             body =  fields.trailText,
-            author = fields.publication
+            author = fields.publication,
+            section = sectionId
         )
     }
 
