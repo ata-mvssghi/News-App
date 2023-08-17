@@ -59,9 +59,6 @@ class NewsRemoteMediator(
             )
             Log.i("remote","api called with load key=$loadKey&with the section of=${queryMap.values}")
             newsDb.withTransaction {
-               if(loadType == LoadType.REFRESH) {
-                   newsDb.dao.clearAll()
-               }
                 val newsEntities = newsList.body()?.response?.results?.map { it.toNewsEntity() }
                 if (newsEntities != null) {
                     newsDb.dao.upsertAll(newsEntities)
