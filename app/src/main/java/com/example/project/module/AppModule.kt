@@ -55,7 +55,7 @@ object AppModule {
                 newsApi = newsApi
             ),
             pagingSourceFactory = {
-                newsDb.dao.pagingSource()
+                newsDb.dao.pagingSource(section)
             }
         )
     }

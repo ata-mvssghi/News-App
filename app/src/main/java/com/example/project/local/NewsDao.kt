@@ -9,8 +9,8 @@ interface NewsDao {
     @Upsert
     suspend fun upsertAll(beers: List<NewsEntity>)
 
-    @Query("SELECT * FROM newsentity")
-    fun pagingSource(): PagingSource<Int, NewsEntity>
+    @Query("SELECT * FROM newsentity WHERE section = :section")
+    fun pagingSource(section: String?): PagingSource<Int, NewsEntity>
 
     @Query("DELETE FROM newsentity")
     suspend fun clearAll()

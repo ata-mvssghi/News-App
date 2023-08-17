@@ -43,7 +43,7 @@ class MainFragment : Fragment() {
     ): View? {
         val binding=FragmentMainBinding.inflate(inflater)
         this.arguments?.let {
-            category= it.getString("ha", getString(R.string.default_value))
+            category= it.getString("section", getString(R.string.default_value))
             Log.i("info","key is ${category}")
         }
         val pager: Pager<Int, NewsEntity> = provideNewsPager(provideNewsDataBase(binding.root.context), provideNewsApi(),category)
@@ -58,7 +58,6 @@ class MainFragment : Fragment() {
             }
         }
         return binding.root
-
     }
 
 

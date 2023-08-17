@@ -34,5 +34,6 @@ interface ApiService {
     ):retrofit2.Response<com.example.project.remote.Response>
     companion object {
         const val BASE_URL = "https://content.guardianapis.com/"
+         var page:Int=1
     }
 }

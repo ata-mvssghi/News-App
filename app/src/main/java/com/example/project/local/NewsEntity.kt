@@ -10,5 +10,5 @@ data class NewsEntity (
     val image:String?,
     val title:String,
     val body:String,
-    val author:String
+    val author:String,
         )
