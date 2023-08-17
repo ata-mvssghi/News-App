@@ -28,10 +28,17 @@ val retrofit = Retrofit.Builder()
 interface ApiService {
     @GET("search?show-fields=headline,trailText,thumbnail,publication&api-key=953f8d3f-32dd-40b0-b440-85b51226b148")
     suspend fun getPhotos(
-        @QueryMap queryMap: Map<String, String>,
+        @Query("section") section: String? = null,
         @Query("page") page: Int,
         @Query("page-size") pageCount: Int
     ):retrofit2.Response<com.example.project.remote.Response>
+
+    @GET("search?show-fields=headline,trailText,thumbnail,publication&api-key=953f8d3f-32dd-40b0-b440-85b51226b148")
+    suspend fun getPhotosWithOutSection(
+        @Query("page") page: Int,
+        @Query("page-size") pageCount: Int
+    ):retrofit2.Response<com.example.project.remote.Response>
+
     companion object {
         const val BASE_URL = "https://content.guardianapis.com/"
          var page:Int=1

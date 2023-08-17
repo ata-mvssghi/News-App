@@ -32,21 +32,29 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.text.Typography.section
 
 class MainFragment : Fragment() {
     private lateinit var viewModel: NEwsViewModel
-    lateinit var category:String
+    lateinit var category: String
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding=FragmentMainBinding.inflate(inflater)
+        var mysection:String?="initial value"
         this.arguments?.let {
-            category= it.getString("section", getString(R.string.default_value))
+            category= it.getString("section","some default value")
             Log.i("info","key is ${category}")
+            mysection=category
+            if (category=="some default value"){
+                Log.i("info","noldi ba null eladikh akih")
+                mysection=null
+                }
+
         }
-        val pager: Pager<Int, NewsEntity> = provideNewsPager(provideNewsDataBase(binding.root.context), provideNewsApi(),category)
+        val pager: Pager<Int, NewsEntity> = provideNewsPager(provideNewsDataBase(binding.root.context), provideNewsApi(),mysection)
         viewModel = ViewModelProvider(this,ViewModelFactory(pager))[NEwsViewModel::class.java]
         val adapter = NewsAdpater()
         val recyclerView: RecyclerView = binding.recyclerView
