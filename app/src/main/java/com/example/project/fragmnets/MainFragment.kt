@@ -49,7 +49,6 @@ class MainFragment : Fragment() {
             Log.i("info","key is ${category}")
             mysection=category
             if (category=="some default value"){
-                Log.i("info","noldi ba null eladikh akih")
                 mysection=null
                 }
 
