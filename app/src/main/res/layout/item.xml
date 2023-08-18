@@ -56,11 +56,21 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageView"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="9dp"
-            android:layout_marginEnd="42dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="41dp"
             android:textColor="#EA3AEA"
             android:textStyle="bold"
             tools:text="jgyyvhki" />
+
+        <ImageView
+            android:id="@+id/shareIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="58dp"
+            android:layout_marginTop="7dp"
+            app:srcCompat="@drawable/baseline_share_24" />
 
     </RelativeLayout>
     <View

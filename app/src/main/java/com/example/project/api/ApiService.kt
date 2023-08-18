@@ -42,5 +42,11 @@ interface ApiService {
     companion object {
         const val BASE_URL = "https://content.guardianapis.com/"
          var page:Int=1
+        var generalLastKey=0
+        var worldLAstKey=0
+        var sportLastKey=0
+        var businessLastKey=0
+        var scienceLastKey=0
+        var societyLastKey=0
     }
 }

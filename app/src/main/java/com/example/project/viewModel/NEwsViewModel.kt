@@ -15,7 +15,7 @@ import javax.inject.Inject
 class NEwsViewModel @Inject constructor(
     pager: Pager<Int, NewsEntity>
 ): ViewModel() {
-    val beerPagingFlow = pager
+    val newsPagingFlow = pager
         .flow
         .map { pagingData ->
             pagingData.map { it.toNewsFeed() }

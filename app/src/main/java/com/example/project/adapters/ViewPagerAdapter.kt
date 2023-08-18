@@ -10,8 +10,19 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.project.MainActivity
 import com.example.project.MainFragment
 import com.example.project.api.ApiService
+import com.example.project.api.ApiService.Companion.businessLastKey
+import com.example.project.api.ApiService.Companion.generalLastKey
+import com.example.project.api.ApiService.Companion.page
+import com.example.project.api.ApiService.Companion.scienceLastKey
+import com.example.project.api.ApiService.Companion.societyLastKey
+import com.example.project.api.ApiService.Companion.sportLastKey
+import com.example.project.api.ApiService.Companion.worldLAstKey
+import kotlin.text.Typography.section
 
 class ViewPagerAdapter(fragmentManager: FragmentManager,lifecycle: Lifecycle): FragmentStateAdapter(fragmentManager,lifecycle) {
+
+
+
     override fun getItemCount(): Int {
         return 6
     }
@@ -36,6 +47,48 @@ class ViewPagerAdapter(fragmentManager: FragmentManager,lifecycle: Lifecycle): F
             else -> null
         }
         bundle.putString("section", section)
+        pageHandler(section)
         return bundle
+    }
+    fun pageHandler(section:String?){
+       when(section) {
+           null-> {
+               if (generalLastKey == 0)
+                   page = 1
+               else
+                   page = generalLastKey
+           }
+           "world"-> {
+                   if (worldLAstKey == 0)
+                       page = 1
+                   else
+                       page = worldLAstKey
+           }
+           "sport"->{
+               if(sportLastKey==0)
+                  page=1
+               else
+                  page= sportLastKey
+           }
+           "business"->{
+               if(businessLastKey==0)
+                 page=1
+               else {
+                   page= businessLastKey
+               }
+           }
+           "science"->{
+               if(scienceLastKey==0)
+                   page=1
+               else
+                   page= scienceLastKey
+           }
+           "society"->{
+               if(societyLastKey==0)
+                   page=1
+               else
+                   page= societyLastKey
+           }
+       }
     }
 }

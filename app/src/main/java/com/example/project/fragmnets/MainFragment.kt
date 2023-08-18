@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.Pager
+import androidx.paging.RemoteMediator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -60,7 +61,7 @@ class MainFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager= LinearLayoutManager(binding.root.context)
         lifecycleScope.launch {
-            viewModel.beerPagingFlow.collectLatest { pagingData ->
+            viewModel.newsPagingFlow.collectLatest { pagingData ->
                 adapter.submitData(lifecycle, pagingData)
             }
         }

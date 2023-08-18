@@ -9,7 +9,13 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.project.R
 import com.example.project.api.ApiService
+import com.example.project.api.ApiService.Companion.businessLastKey
+import com.example.project.api.ApiService.Companion.generalLastKey
 import com.example.project.api.ApiService.Companion.page
+import com.example.project.api.ApiService.Companion.scienceLastKey
+import com.example.project.api.ApiService.Companion.societyLastKey
+import com.example.project.api.ApiService.Companion.sportLastKey
+import com.example.project.api.ApiService.Companion.worldLAstKey
 import com.example.project.local.NewsDataBase
 import com.example.project.local.NewsEntity
 import com.example.project.mappers.toNewsEntity
@@ -38,16 +44,41 @@ class NewsRemoteMediator(
                     if(lastItem == null) {
                         1
                     } else {
-                        ++ApiService.page
+                        ++page
                     }
                 }
             }
-            Log.i("remote"," page is =${ApiService.page} and the load key is $loadKey")
+
+            Log.i("remote"," page is =$page and the load key is $loadKey")
             //setting each fragment's specific  constraint for sectuon
             if(section== "some default value"){
                 section=null
              }
             Log.i("info","section is $section")
+            //setting the last key if the load key is not 1
+            if(loadKey!=1){
+                when(section){
+                    null->{
+                        generalLastKey= page
+                    }
+                    "world"->{
+                        worldLAstKey= page
+                    }
+                    "sport"->{
+                        sportLastKey= page
+                    }
+                    "business"->{
+                        businessLastKey= page
+                    }
+                    "science"->{
+                        scienceLastKey=page
+                    }
+                    "society"->{
+                        societyLastKey=page
+                    }
+                }
+            }
+
             if(section!=null) {
                  newsList = newsApi.getPhotos(
                     section = section,
