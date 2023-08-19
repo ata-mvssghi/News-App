@@ -1,0 +1,16 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="color_theme">
+        <item>white</item>
+        <item>Crystal Clear</item>
+        <item >Titanium</item>
+        <item>Hydrogen</item>
+        <item>Mild</item>
+    </string-array>
+
+    <string-array name="text_size">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+</resources>

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2
@@ -60,6 +61,17 @@ class PrimaryFragment : Fragment() {
             drawerLayout.closeDrawers()
             true
         }
+        // setting a toggle bar for navigation drawer
+        val toolBar=binding.toolbar
+        val toggleButton = ActionBarDrawerToggle(
+            requireActivity(), // or activity
+            drawerLayout,
+            toolBar,
+            R.string.menu_opened,
+            R.string.menu_closed
+        )
+
+        toggleButton.syncState()
         return binding.root
     }
 

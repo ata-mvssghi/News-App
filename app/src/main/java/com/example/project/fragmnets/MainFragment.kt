@@ -14,6 +14,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.paging.Pager
 import androidx.paging.RemoteMediator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +29,6 @@ import com.example.project.databinding.FragmentPrimaryBinding
 import com.example.project.local.NewsDataBase
 import com.example.project.local.NewsEntity
 import com.example.project.viewModel.NEwsViewModel
-import com.example.project.viewModel.NEwsViewModel_HiltModules.KeyModule.provide
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -64,6 +65,10 @@ class MainFragment : Fragment() {
             viewModel.newsPagingFlow.collectLatest { pagingData ->
                 adapter.submitData(lifecycle, pagingData)
             }
+        }
+        // setting navigation logic
+        binding.floatingActionButton2.setOnClickListener{
+            it.findNavController().navigate(R.id.action_primaryFragment_to_settingsFragment)
         }
         return binding.root
     }

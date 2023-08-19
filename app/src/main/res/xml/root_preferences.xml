@@ -1,0 +1,42 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory app:title="Data"
+        app:icon="@drawable/baseline_settings_suggest_24">
+
+        <EditTextPreference
+            app:key="signature"
+            app:title="@string/signature_title"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="10"/>
+
+
+        <ListPreference
+            app:entries="@array/color_theme"
+            app:entryValues="@array/color_theme"
+            app:key="color Theme"
+            app:title="Color Theme"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/color_theme"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Customize Style"
+        app:icon="@drawable/baseline_style_24">
+        <ListPreference
+            app:entries="@array/color_theme"
+            app:entryValues="@array/color_theme"
+            app:key="color_theme"
+            app:title="Color Theme"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="@string/color_theme" />
+        <ListPreference
+            app:entries="@array/text_size"
+            app:entryValues="@array/text_size"
+            app:key="text-size"
+            app:title="Text Size"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="Medium" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
