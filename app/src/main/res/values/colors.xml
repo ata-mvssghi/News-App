@@ -2,4 +2,19 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#018786</color>
+    <color name="colorAccent">#03DAC6</color>
+
+    <color name="color_main_1">#4D71FF</color>
+    <color name="color_bg_1">#FFFFFF</color>
+    <color name="color_text_0">#101214</color>
+    <color name="color_light">#E0A62E</color>
+    <color name="color_custom">#FFEBE0</color>
+
+    <color name="blue">#58a5f0</color>
+    <color name="orange">#ff5722</color>
+    <color name="green">#bef67a</color>
+    <color name="float_btn_color">#fdd835</color>
+
 </resources>

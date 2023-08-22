@@ -10,10 +10,10 @@ import com.example.project.viewHolder.NewsViewHolder
 import kotlinx.coroutines.NonDisposableHandle
 import kotlinx.coroutines.NonDisposableHandle.parent
 
-class NewsAdpater: PagingDataAdapter<NewsFeed, NewsViewHolder>(NewsComprator()) {
+class NewsAdpater(): PagingDataAdapter<NewsFeed, NewsViewHolder>(NewsComprator()) {
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        getItem(position)?.let { beer ->
-            holder.bind(beer)
+        getItem(position)?.let { news ->
+            holder.bind(news)
         }
     }
 

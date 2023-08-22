@@ -1,42 +1,32 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="myPref">
     <PreferenceCategory app:title="Data"
         app:icon="@drawable/baseline_settings_suggest_24">
 
         <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
+            app:key="itemN"
+            app:title="Number of items"
             app:useSimpleSummaryProvider="true"
-            app:defaultValue="10"/>
-
-
-        <ListPreference
-            app:entries="@array/color_theme"
-            app:entryValues="@array/color_theme"
-            app:key="color Theme"
-            app:title="Color Theme"
-            app:useSimpleSummaryProvider="true"
-            app:defaultValue="@string/color_theme"/>
-
+            app:defaultValue="10"
+            />
     </PreferenceCategory>
-
     <PreferenceCategory app:title="Customize Style"
         app:icon="@drawable/baseline_style_24">
         <ListPreference
-            app:entries="@array/color_theme"
-            app:entryValues="@array/color_theme"
+            app:entries="@array/theme_list"
+            app:entryValues="@array/theme_list"
             app:key="color_theme"
-            app:title="Color Theme"
+            app:title="THEME"
             app:useSimpleSummaryProvider="true"
-            app:defaultValue="@string/color_theme" />
+            app:defaultValue="Light" />
         <ListPreference
             app:entries="@array/text_size"
             app:entryValues="@array/text_size"
-            app:key="text-size"
+            app:key="text_size"
             app:title="Text Size"
             app:useSimpleSummaryProvider="true"
             app:defaultValue="Medium" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>

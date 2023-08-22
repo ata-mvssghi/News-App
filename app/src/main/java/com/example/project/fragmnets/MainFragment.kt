@@ -4,6 +4,7 @@ import AppModule.provideNewsApi
 import AppModule.provideNewsDataBase
 import AppModule.provideNewsPager
 import ViewModelFactory
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.paging.Pager
 import androidx.paging.RemoteMediator
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -67,10 +69,41 @@ class MainFragment : Fragment() {
             }
         }
         // setting navigation logic
-        binding.floatingActionButton2.setOnClickListener{
+        binding.floatingActionButton2.setOnClickListener {
             it.findNavController().navigate(R.id.action_primaryFragment_to_settingsFragment)
         }
         return binding.root
+    }
+
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        loadSettings()
+    }
+    private fun loadSettings() {
+        val sp =PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val itemNumber = sp .getString("itemN",null)
+        val themC=sp.getString("color_theme",null)
+        val textSizeSp= sp.getString("text_size",null)
+        Log.i("remote","number=$itemNumber  \ncolor=$themC\n textsize=$textSizeSp")
+        val size= when(textSizeSp){
+            "Small"->0.5f
+            "Medium"->0.9f
+            "Large"->0.95f
+            else ->0.5f
+        }
+//
+//        val configuration = Configuration(resources.configuration)
+//        configuration.fontScale = size
+//        resources.updateConfiguration(configuration, resources.displayMetrics)
+//
+//        // You may need to recreate the activity to apply the new font scale
+//        activity?.recreate()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("remote","on resume of fragment main called")
     }
 
 
