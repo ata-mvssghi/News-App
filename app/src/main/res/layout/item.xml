@@ -7,7 +7,6 @@
     android:layout_height="wrap_content"
     android:drawableBottom="@drawable/baseline_people_24"
     app:cardCornerRadius="7dp"
-
     android:layout_marginBottom="15dp">
 
     <RelativeLayout
@@ -35,7 +34,6 @@
             android:fontFamily="@font/playball_regular"
             android:textAlignment="viewStart"
             android:textAllCaps="false"
-            android:textColor="#6C83F3"
             android:textSize="20sp"
             android:textStyle="bold|italic"
             tools:text="goftam ke boy ssal " />
@@ -49,7 +47,6 @@
             android:layout_marginTop="31dp"
             android:layout_toEndOf="@+id/imageView"
             android:fontFamily="@font/forum_regular"
-            android:textColor="#221F1E"
             android:textSize="14sp"
             tools:text="wetrghfjhge" />
 
@@ -59,10 +56,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/dateTv"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="42dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="50dp"
             android:fontFamily="@font/macondo_regular"
-            android:textColor="#EA3AEA"
             android:textSize="12sp"
             android:textStyle="bold"
             tools:text="jgyyvhki" />
@@ -83,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/descriptionTv"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="34dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="44dp"
             android:text="TextView" />
 

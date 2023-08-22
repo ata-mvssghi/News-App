@@ -4,4 +4,24 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
+    <style name="DayNightAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <item name="colorPrimary">@color/color_bg_1</item>
+        <item name="colorPrimaryDark">@color/color_bg_1</item>
+        <item name="colorAccent">@color/color_main_1</item>
+        <item name="android:textColor">@color/color_text_0</item>
+        <item name="android:textColorPrimary">@color/color_text_0</item>
+        <item name="android:colorControlNormal">@color/color_text_0</item>
+        <item name="android:windowBackground">@color/color_bg_1</item>
+        <item name="android:navigationBarColor">@color/color_bg_1</item>
+        <item name="android:statusBarColor">@color/color_bg_1</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+
+    <style name="AppTheme.DayNight" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    
 </resources>
