@@ -77,29 +77,6 @@ class MainFragment : Fragment() {
 
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        loadSettings()
-    }
-    private fun loadSettings() {
-        val sp =PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val itemNumber = sp .getString("itemN",null)
-        val themC=sp.getString("color_theme",null)
-        val textSizeSp= sp.getString("text_size",null)
-        Log.i("remote","number=$itemNumber  \ncolor=$themC\n textsize=$textSizeSp")
-        val size= when(textSizeSp){
-            "Small"->0.5f
-            "Medium"->0.9f
-            "Large"->0.95f
-            else ->0.5f
-        }
-//
-//        val configuration = Configuration(resources.configuration)
-//        configuration.fontScale = size
-//        resources.updateConfiguration(configuration, resources.displayMetrics)
-//
-//        // You may need to recreate the activity to apply the new font scale
-//        activity?.recreate()
-    }
 
     override fun onResume() {
         super.onResume()

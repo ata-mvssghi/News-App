@@ -1,12 +1,20 @@
 package com.example.project.fragmnets
+import DatePickerPreference
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
+import android.util.Xml
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.example.project.R
 import com.example.project.fragmnets.SettingsFragment.ThemeChangingInstance.themeChangeListener
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsFragment : PreferenceFragmentCompat(),Preference.OnPreferenceChangeListener {
     var previousTheme:String?="init"
     var previousFont:String?="init"
     companion object {
@@ -20,6 +28,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val sp =PreferenceManager.getDefaultSharedPreferences(requireContext())
         val selectedTextSizePreference = sp.getString("text_size", "Medium")
         val selectedTheme:String?=sp.getString("color_theme","Light")
+        val time:Long=sp.getLong("date_preference",1)
+        if (time != 1L) { // Check if the time is not the default value
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val formattedDate = dateFormat.format(Date(time))
+            Log.i("remote","time is =$formattedDate")
+            // Now, `formattedDate` contains the date in the desired format
+            // You can use it as needed
+        }
+
         if (selectedTextSizePreference != null&&selectedTextSizePreference!=previousFont) {
             onTextSizePreferenceChanged(selectedTextSizePreference)
         }
@@ -45,6 +62,31 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val sp = PreferenceManager.getDefaultSharedPreferences(requireContext())
          previousTheme=sp.getString("color_theme","Light")
          previousFont=sp.getString("text_size","Medium")
+
+        val datePickerPreference = DatePickerPreference(requireContext())
+        datePickerPreference.key = "date_preference"
+        datePickerPreference.title = "Select Date"
+        datePickerPreference.summary = "Selected Date"
+
+        //setting the last week as the default date
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.WEEK_OF_YEAR, -1) // Subtract one week
+        val lastWeekDate = calendar.time
+        datePickerPreference.setDefaultValue(lastWeekDate.time)
+        datePickerPreference.onPreferenceChangeListener = this
+
+        preferenceScreen.addPreference(datePickerPreference)
+    }
+    override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
+        Log.i("remote","onPreferenceChange")
+        if (preference.key == "date_preference") {
+            val selectedDateInMillis = newValue as? Long
+            if (selectedDateInMillis != null) {
+                val selectedDate = Date(selectedDateInMillis)
+                Log.i("remote","DATE=$selectedDate")
+            }
+        }
+        return true
     }
 }
 interface FontScaleChangedListener {

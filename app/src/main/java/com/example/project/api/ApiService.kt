@@ -28,6 +28,7 @@ val retrofit = Retrofit.Builder()
 interface ApiService {
     @GET("search?show-fields=headline,trailText,thumbnail,publication&api-key=953f8d3f-32dd-40b0-b440-85b51226b148")
     suspend fun getPhotos(
+//        @Query("order-by") order:String,
         @Query("section") section: String? = null,
         @Query("page") page: Int,
         @Query("page-size") pageCount: Int

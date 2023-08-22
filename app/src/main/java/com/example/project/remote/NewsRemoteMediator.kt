@@ -1,11 +1,13 @@
 package com.example.project.remote
 
 import android.util.Log
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import androidx.preference.PreferenceManager
 import androidx.room.withTransaction
 import com.example.project.R
 import com.example.project.api.ApiService
@@ -25,6 +27,8 @@ import java.io.IOException
 private lateinit var newsList:Response<com.example.project.remote.Response>
 @OptIn(ExperimentalPagingApi::class)
 class NewsRemoteMediator(
+    private var fromDate:String,
+    private var order:String,
     private var section:String?,
     private val newsDb: NewsDataBase,
     private val newsApi: ApiService,
@@ -78,12 +82,11 @@ class NewsRemoteMediator(
                     }
                 }
             }
-
             if(section!=null) {
                  newsList = newsApi.getPhotos(
                     section = section,
                     page = loadKey,
-                    pageCount = state.config.pageSize
+                    pageCount = state.config.pageSize,
                 )
                 Log.i("remote","first get called")
             }

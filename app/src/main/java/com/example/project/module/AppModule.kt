@@ -50,6 +50,7 @@ object AppModule {
         return Pager(
             config = PagingConfig(pageSize = 10),
             remoteMediator = NewsRemoteMediator(
+                order
                 section=section,
                 newsDb = newsDb,
                 newsApi = newsApi
