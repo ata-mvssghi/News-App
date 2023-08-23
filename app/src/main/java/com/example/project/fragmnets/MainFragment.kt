@@ -28,6 +28,8 @@ import com.example.project.adapters.ViewPagerAdapter
 import com.example.project.api.ApiService
 import com.example.project.databinding.FragmentMainBinding
 import com.example.project.databinding.FragmentPrimaryBinding
+import com.example.project.fragmnets.SettingsFragment
+import com.example.project.fragmnets.onApiSettingChangedListner
 import com.example.project.local.NewsDataBase
 import com.example.project.local.NewsEntity
 import com.example.project.viewModel.NEwsViewModel
@@ -41,9 +43,10 @@ import java.util.Date
 import java.util.Locale
 import kotlin.text.Typography.section
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(),onApiSettingChangedListner {
     private lateinit var viewModel: NEwsViewModel
     lateinit var category: String
+    lateinit var adapter: NewsAdpater
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,7 +61,6 @@ class MainFragment : Fragment() {
             if (category=="some default value"){
                 mysection=null
                 }
-
         }
         //getting data from shared preference to pass to the api
         val sp =PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -67,9 +69,11 @@ class MainFragment : Fragment() {
         val formattedDate = dateFormat.format(Date(time))
         val order=sp.getString("order_by","newest")
 
+        //setting the api cahnge listener instance to this
+        SettingsFragment.ApiChangedInstanceForFragment.apiChangeListenerFrag=this
         val pager: Pager<Int, NewsEntity> = provideNewsPager(provideNewsDataBase(binding.root.context), provideNewsApi(),mysection, formattedDate,order)
         viewModel = ViewModelProvider(this,ViewModelFactory(pager))[NEwsViewModel::class.java]
-        val adapter = NewsAdpater()
+         adapter = NewsAdpater()
         val recyclerView: RecyclerView = binding.recyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager= LinearLayoutManager(binding.root.context)
@@ -85,9 +89,10 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-
-
-
+    override fun onUpdate(newDate: String, newOrder: String?) {
+        adapter.refresh()
+        Log.i("remote","$$% adapter's refresh called in main fragment order is $newOrder and the date is $newDate")
+    }
     override fun onResume() {
         super.onResume()
         Log.i("remote","on resume of fragment main called")

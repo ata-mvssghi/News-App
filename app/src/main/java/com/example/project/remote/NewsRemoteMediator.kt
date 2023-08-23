@@ -7,8 +7,10 @@ import androidx.paging.LoadType
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import androidx.paging.log
 import androidx.preference.PreferenceManager
 import androidx.room.withTransaction
+import com.bumptech.glide.Glide.init
 import com.example.project.R
 import com.example.project.api.ApiService
 import com.example.project.api.ApiService.Companion.businessLastKey
@@ -32,20 +34,20 @@ import okhttp3.Dispatcher
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
+import java.lang.Exception
+
 private lateinit var newsList:Response<com.example.project.remote.Response>
 @OptIn(ExperimentalPagingApi::class)
 class NewsRemoteMediator(
-    private var fromDate:String,
+    private var _fromDate:String,
     private var order:String?,
     private var section:String?,
     private val newsDb: NewsDataBase,
     private val newsApi: ApiService,
 ):RemoteMediator<Int,NewsEntity>(),onApiSettingChangedListner{
+    var fromDate=_fromDate
     init {
         SettingsFragment.ApiChangeInstance.apiChangeListener=this
-//        runBlocking {
-//            newsDb.dao.clearAll()
-//        }
     }
     override suspend fun load(
         loadType: LoadType,
@@ -115,13 +117,18 @@ class NewsRemoteMediator(
                 )
                 Log.i("remote","second get called with fromDate of =$fromDate, order=$order")
             }
-            Log.i("remote","api called with load key=$loadKey&with the section of=${section}")
-            newsDb.withTransaction {
-                val newsEntities = newsList.body()?.response?.results?.map { it.toNewsEntity() }
-                if (newsEntities != null) {
-                    newsDb.dao.upsertAll(newsEntities)
-                    Log.i("remote","upserted successfully")
+            Log.i("remote","api called with load key=$loadKey&with the section of=${section} and form fate+$fromDate")
+            try {
+                newsDb.withTransaction {
+                    val newsEntities = newsList.body()?.response?.results?.map { it.toNewsEntity() }
+                    if (newsEntities != null) {
+                        newsDb.dao.upsertAll(newsEntities)
+                        Log.i("remote", "upserted successfully")
+                    }
                 }
+            }
+            catch (e:Exception){
+                Log.e("remote","${e.message}")
             }
             MediatorResult.Success(
                 endOfPaginationReached = newsList.body()?.response?.results!!.isEmpty()
@@ -134,7 +141,7 @@ class NewsRemoteMediator(
     }
      fun update(){
         runBlocking {
-            newsDb.withTransaction { newsDb.dao.clearAll() }
+          newsDb.dao.clearAll()
            // newsDb.dao.clearSection(section)
             Log.i("remote","done with deleting the section =$section from db")
         }
@@ -143,6 +150,7 @@ class NewsRemoteMediator(
     override fun onUpdate(newDate: String, newOrder: String?) {
         fromDate=newDate
         order=newOrder
+        Log.i("remote ","value passed to remmote mediator : date=$newDate, order =$newOrder \n from date now is $fromDate")
         update()
     }
 }

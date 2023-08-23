@@ -10,6 +10,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.example.project.R
 import com.example.project.fragmnets.SettingsFragment.ApiChangeInstance.apiChangeListener
+import com.example.project.fragmnets.SettingsFragment.ApiChangedInstanceForFragment.apiChangeListenerFrag
 import com.example.project.fragmnets.SettingsFragment.ThemeChangingInstance.themeChangeListener
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -28,6 +29,9 @@ class SettingsFragment : PreferenceFragmentCompat(),Preference.OnPreferenceChang
     object ApiChangeInstance{
         var apiChangeListener:onApiSettingChangedListner?=null
     }
+    object ApiChangedInstanceForFragment{
+        var apiChangeListenerFrag:onApiSettingChangedListner?=null
+    }
     override fun onDestroy() {
         super.onDestroy()
         val sp =PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -38,7 +42,7 @@ class SettingsFragment : PreferenceFragmentCompat(),Preference.OnPreferenceChang
          // Check if the time is not the default value
             val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val formattedDate = dateFormat.format(Date(time))
-            Log.i("remote", "time is =$formattedDate")
+            Log.i("remote", "time is =$formattedDate and the orfer is =$order")
             // Now, `formattedDate` contains the date in the desired format
             // You can use it as needed
 
@@ -51,6 +55,7 @@ class SettingsFragment : PreferenceFragmentCompat(),Preference.OnPreferenceChang
             Log.i("remote","theme is cahnged and changed theme is =$selectedTheme")
         }
         apiChangeListener?.onUpdate(formattedDate,order)
+        apiChangeListenerFrag?.onUpdate(formattedDate,order)
 
     }
      fun onTextSizePreferenceChanged(selectedTextSizePreference: String) {
