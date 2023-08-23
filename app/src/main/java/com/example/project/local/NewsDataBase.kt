@@ -3,7 +3,7 @@ package com.example.project.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
-@Database(entities = [NewsEntity::class], version = 3)
+@Database(entities = [NewsEntity::class], version = 4)
 abstract class NewsDataBase():RoomDatabase() {
     abstract val dao: NewsDao
 }

@@ -15,12 +15,12 @@ object ViewModelModule {
     @Provides
     @ViewModelScoped
     fun provideRepository(
+        fromDate:String,
+        order:String?,
         section:String?,
         beerApi: ApiService,
         beerDb: NewsDataBase
     ): NewsRemoteMediator {
-        return NewsRemoteMediator(section,beerDb, beerApi)
+        return NewsRemoteMediator(fromDate,order,section,beerDb, beerApi)
     }
-
-
 }

@@ -10,6 +10,14 @@
             app:useSimpleSummaryProvider="true"
             app:defaultValue="10"
             />
+        <ListPreference
+            android:key="order_by"
+            app:title="Order By"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="newest"
+            android:entries="@array/order"
+            android:entryValues="@array/order"
+            />
     </PreferenceCategory>
     <PreferenceCategory app:title="Customize Style"
         app:icon="@drawable/baseline_style_24">

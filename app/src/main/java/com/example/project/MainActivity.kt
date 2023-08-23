@@ -10,6 +10,7 @@ import androidx.preference.PreferenceManager
 import com.example.project.fragmnets.FontScaleChangedListener
 import com.example.project.fragmnets.OnThemeChangeListener
 import com.example.project.fragmnets.SettingsFragment
+import com.example.project.fragmnets.onApiSettingChangedListner
 
 
 class MainActivity : AppCompatActivity(),FontScaleChangedListener,OnThemeChangeListener{
@@ -69,4 +70,5 @@ class MainActivity : AppCompatActivity(),FontScaleChangedListener,OnThemeChangeL
         recreate()
         Log.i("remote","theme change called in main")
     }
+
 }

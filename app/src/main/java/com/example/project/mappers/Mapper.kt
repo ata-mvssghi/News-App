@@ -10,12 +10,13 @@ import com.example.project.remote.NewsFeedDto
             title = fields.headline,
             body =  fields.trailText,
             author = fields.publication,
-            section = sectionId
+            section = sectionId,
+            date = webPublicationDate
         )
     }
 
     fun NewsEntity.toNewsFeed():NewsFeed{
         return NewsFeed(
-            image=image, title=title, body=body, author=author
+            image=image, title=title, body=body, author=author,date=date
         )
     }
