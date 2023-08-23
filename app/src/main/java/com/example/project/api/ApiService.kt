@@ -52,5 +52,6 @@ interface ApiService {
         var businessLastKey=0
         var scienceLastKey=0
         var societyLastKey=0
+        var date="init"
     }
 }

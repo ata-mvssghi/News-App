@@ -13,6 +13,7 @@ import androidx.room.withTransaction
 import com.bumptech.glide.Glide.init
 import com.example.project.R
 import com.example.project.api.ApiService
+import com.example.project.api.ApiService.Companion.date
 import com.example.project.api.ApiService.Companion.businessLastKey
 import com.example.project.api.ApiService.Companion.generalLastKey
 import com.example.project.api.ApiService.Companion.page
@@ -39,15 +40,15 @@ import java.lang.Exception
 private lateinit var newsList:Response<com.example.project.remote.Response>
 @OptIn(ExperimentalPagingApi::class)
 class NewsRemoteMediator(
-    private var _fromDate:String,
+    private var fromDate:String,
     private var order:String?,
     private var section:String?,
     private val newsDb: NewsDataBase,
     private val newsApi: ApiService,
 ):RemoteMediator<Int,NewsEntity>(),onApiSettingChangedListner{
-    var fromDate=_fromDate
     init {
         SettingsFragment.ApiChangeInstance.apiChangeListener=this
+        date=fromDate
     }
     override suspend fun load(
         loadType: LoadType,
@@ -100,7 +101,7 @@ class NewsRemoteMediator(
             }
             if(section!=null) {
                  newsList = newsApi.getPhotos(
-                     fromDate=fromDate,
+                     fromDate= date,
                      order=order,
                     section = section,
                     page = loadKey,
@@ -110,7 +111,7 @@ class NewsRemoteMediator(
             }
             else {
                  newsList = newsApi.getPhotosWithOutSection(
-                     fromDate=fromDate,
+                     fromDate= date,
                      order=order,
                     page = loadKey,
                     pageCount = state.config.pageSize
@@ -148,7 +149,7 @@ class NewsRemoteMediator(
     }
 
     override fun onUpdate(newDate: String, newOrder: String?) {
-        fromDate=newDate
+        date=newDate
         order=newOrder
         Log.i("remote ","value passed to remmote mediator : date=$newDate, order =$newOrder \n from date now is $fromDate")
         update()
