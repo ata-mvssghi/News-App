@@ -36,6 +36,9 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.text.Typography.section
 
 class MainFragment : Fragment() {
@@ -57,7 +60,14 @@ class MainFragment : Fragment() {
                 }
 
         }
-        val pager: Pager<Int, NewsEntity> = provideNewsPager(provideNewsDataBase(binding.root.context), provideNewsApi(),mysection)
+        //getting data from shared preference to pass to the api
+        val sp =PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val time:Long=sp.getLong("date_preference",1)
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val formattedDate = dateFormat.format(Date(time))
+        val order=sp.getString("order_by","newest")
+
+        val pager: Pager<Int, NewsEntity> = provideNewsPager(provideNewsDataBase(binding.root.context), provideNewsApi(),mysection, formattedDate,order)
         viewModel = ViewModelProvider(this,ViewModelFactory(pager))[NEwsViewModel::class.java]
         val adapter = NewsAdpater()
         val recyclerView: RecyclerView = binding.recyclerView

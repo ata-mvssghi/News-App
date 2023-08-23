@@ -46,11 +46,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNewsPager(newsDb: NewsDataBase, newsApi:ApiService,section: String? ): Pager<Int, NewsEntity> {
+    fun provideNewsPager(newsDb: NewsDataBase, newsApi:ApiService,section: String?,fromDate:String,order:String? ): Pager<Int, NewsEntity> {
         return Pager(
             config = PagingConfig(pageSize = 10),
             remoteMediator = NewsRemoteMediator(
-                order
+                fromDate =fromDate ,
+                order=order,
                 section=section,
                 newsDb = newsDb,
                 newsApi = newsApi

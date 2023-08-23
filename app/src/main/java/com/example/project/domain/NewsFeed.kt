@@ -6,4 +6,6 @@ data class NewsFeed(
     val image:String?,
     val title:String,
     val body:String,
-    val author:String)
+    val author:String,
+    val date:String
+    )

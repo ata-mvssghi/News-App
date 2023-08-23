@@ -31,7 +31,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="17dp"
-            android:fontFamily="@font/playball_regular"
+            android:fontFamily="@font/bricolage"
             android:textAlignment="viewStart"
             android:textAllCaps="false"
             android:textSize="20sp"
@@ -81,7 +81,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="44dp"
-            android:text="TextView" />
+            tools:text="some date" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -4,10 +4,12 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.util.Xml
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.example.project.R
+import com.example.project.fragmnets.SettingsFragment.ApiChangeInstance.apiChangeListener
 import com.example.project.fragmnets.SettingsFragment.ThemeChangingInstance.themeChangeListener
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -23,20 +25,24 @@ class SettingsFragment : PreferenceFragmentCompat(),Preference.OnPreferenceChang
     object ThemeChangingInstance{
          var themeChangeListener: OnThemeChangeListener? = null
     }
+    object ApiChangeInstance{
+        var apiChangeListener:onApiSettingChangedListner?=null
+    }
     override fun onDestroy() {
         super.onDestroy()
         val sp =PreferenceManager.getDefaultSharedPreferences(requireContext())
         val selectedTextSizePreference = sp.getString("text_size", "Medium")
         val selectedTheme:String?=sp.getString("color_theme","Light")
+        val order=sp.getString("order_by","newest")
         val time:Long=sp.getLong("date_preference",1)
-        if (time != 1L) { // Check if the time is not the default value
+         // Check if the time is not the default value
             val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val formattedDate = dateFormat.format(Date(time))
-            Log.i("remote","time is =$formattedDate")
+            Log.i("remote", "time is =$formattedDate")
             // Now, `formattedDate` contains the date in the desired format
             // You can use it as needed
-        }
 
+        
         if (selectedTextSizePreference != null&&selectedTextSizePreference!=previousFont) {
             onTextSizePreferenceChanged(selectedTextSizePreference)
         }
@@ -44,6 +50,7 @@ class SettingsFragment : PreferenceFragmentCompat(),Preference.OnPreferenceChang
             themeChangeListener?.onThemeChanged(selectedTheme)
             Log.i("remote","theme is cahnged and changed theme is =$selectedTheme")
         }
+        apiChangeListener?.onUpdate(formattedDate,order)
 
     }
      fun onTextSizePreferenceChanged(selectedTextSizePreference: String) {
@@ -94,4 +101,7 @@ interface FontScaleChangedListener {
 }
 interface OnThemeChangeListener {
     fun onThemeChanged(selectedThemeString:String?)
+}
+interface onApiSettingChangedListner {
+    fun onUpdate(newDate:String,newOrder:String?)
 }

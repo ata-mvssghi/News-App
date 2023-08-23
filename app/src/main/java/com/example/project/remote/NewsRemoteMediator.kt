@@ -18,9 +18,17 @@ import com.example.project.api.ApiService.Companion.scienceLastKey
 import com.example.project.api.ApiService.Companion.societyLastKey
 import com.example.project.api.ApiService.Companion.sportLastKey
 import com.example.project.api.ApiService.Companion.worldLAstKey
+import com.example.project.fragmnets.SettingsFragment
+import com.example.project.fragmnets.onApiSettingChangedListner
 import com.example.project.local.NewsDataBase
 import com.example.project.local.NewsEntity
 import com.example.project.mappers.toNewsEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -28,11 +36,17 @@ private lateinit var newsList:Response<com.example.project.remote.Response>
 @OptIn(ExperimentalPagingApi::class)
 class NewsRemoteMediator(
     private var fromDate:String,
-    private var order:String,
+    private var order:String?,
     private var section:String?,
     private val newsDb: NewsDataBase,
     private val newsApi: ApiService,
-):RemoteMediator<Int,NewsEntity>(){
+):RemoteMediator<Int,NewsEntity>(),onApiSettingChangedListner{
+    init {
+        SettingsFragment.ApiChangeInstance.apiChangeListener=this
+//        runBlocking {
+//            newsDb.dao.clearAll()
+//        }
+    }
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, NewsEntity>,
@@ -84,18 +98,22 @@ class NewsRemoteMediator(
             }
             if(section!=null) {
                  newsList = newsApi.getPhotos(
+                     fromDate=fromDate,
+                     order=order,
                     section = section,
                     page = loadKey,
                     pageCount = state.config.pageSize,
                 )
-                Log.i("remote","first get called")
+                Log.i("remote","first get called with fromDate of =$fromDate, order=$order")
             }
             else {
                  newsList = newsApi.getPhotosWithOutSection(
+                     fromDate=fromDate,
+                     order=order,
                     page = loadKey,
                     pageCount = state.config.pageSize
                 )
-                Log.i("remote","second get called")
+                Log.i("remote","second get called with fromDate of =$fromDate, order=$order")
             }
             Log.i("remote","api called with load key=$loadKey&with the section of=${section}")
             newsDb.withTransaction {
@@ -113,5 +131,18 @@ class NewsRemoteMediator(
         } catch(e: HttpException) {
             MediatorResult.Error(e)
         }
+    }
+     fun update(){
+        runBlocking {
+            newsDb.withTransaction { newsDb.dao.clearAll() }
+           // newsDb.dao.clearSection(section)
+            Log.i("remote","done with deleting the section =$section from db")
+        }
+    }
+
+    override fun onUpdate(newDate: String, newOrder: String?) {
+        fromDate=newDate
+        order=newOrder
+        update()
     }
 }
