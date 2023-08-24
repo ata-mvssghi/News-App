@@ -25,7 +25,7 @@ class NewsAdpater(): PagingDataAdapter<NewsFeed, NewsViewHolder>(NewsComprator()
 
 class NewsComprator : DiffUtil.ItemCallback<NewsFeed>() {
     override fun areItemsTheSame(oldItem: NewsFeed, newItem: NewsFeed): Boolean {
-        return oldItem.image == newItem.image
+        return oldItem.image == newItem.image && oldItem.body==newItem.body
     }
 
     override fun areContentsTheSame(oldItem: NewsFeed, newItem: NewsFeed): Boolean {

@@ -1,8 +1,10 @@
 package com.example.project.remote
 
 import android.util.Log
+import android.view.View
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadState.Loading.endOfPaginationReached
 import androidx.paging.LoadType
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -16,6 +18,7 @@ import com.example.project.api.ApiService
 import com.example.project.api.ApiService.Companion.date
 import com.example.project.api.ApiService.Companion.businessLastKey
 import com.example.project.api.ApiService.Companion.generalLastKey
+import com.example.project.api.ApiService.Companion.order
 import com.example.project.api.ApiService.Companion.page
 import com.example.project.api.ApiService.Companion.scienceLastKey
 import com.example.project.api.ApiService.Companion.societyLastKey
@@ -28,6 +31,7 @@ import com.example.project.local.NewsEntity
 import com.example.project.mappers.toNewsEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -37,7 +41,7 @@ import retrofit2.Response
 import java.io.IOException
 import java.lang.Exception
 
-private lateinit var newsList:Response<com.example.project.remote.Response>
+//private lateinit var newsList:Response<com.example.project.remote.Response>
 @OptIn(ExperimentalPagingApi::class)
 class NewsRemoteMediator(
     private var fromDate:String,
@@ -49,6 +53,7 @@ class NewsRemoteMediator(
     init {
         SettingsFragment.ApiChangeInstance.apiChangeListener=this
         date=fromDate
+        ApiService.order=order
     }
     override suspend fun load(
         loadType: LoadType,
@@ -99,24 +104,25 @@ class NewsRemoteMediator(
                     }
                 }
             }
+            val newsList :Response<com.example.project.remote.Response>
             if(section!=null) {
                  newsList = newsApi.getPhotos(
                      fromDate= date,
-                     order=order,
+                     order=ApiService.order,
                     section = section,
                     page = loadKey,
                     pageCount = state.config.pageSize,
                 )
-                Log.i("remote","first get called with fromDate of =$fromDate, order=$order")
+                Log.i("remote","first get called with fromDate of =$date, order=${ApiService.order}")
             }
             else {
                  newsList = newsApi.getPhotosWithOutSection(
                      fromDate= date,
-                     order=order,
+                     order=ApiService.order,
                     page = loadKey,
                     pageCount = state.config.pageSize
                 )
-                Log.i("remote","second get called with fromDate of =$fromDate, order=$order")
+                Log.i("remote","second get called with fromDate of =$date, order=${ApiService.order}")
             }
             Log.i("remote","api called with load key=$loadKey&with the section of=${section} and form fate+$fromDate")
             try {
@@ -131,18 +137,18 @@ class NewsRemoteMediator(
             catch (e:Exception){
                 Log.e("remote","${e.message}")
             }
-            MediatorResult.Success(
-                endOfPaginationReached = newsList.body()?.response?.results!!.isEmpty()
-            )
-        } catch(e: IOException) {
-            MediatorResult.Error(e)
+                val endOfPaginationReached = newsList.body()?.response?.results?.isEmpty() ?: true
+            Log.i("remote","end reached=$endOfPaginationReached")
+            MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+        } catch(e: IOException) { MediatorResult.Error(e)
         } catch(e: HttpException) {
             MediatorResult.Error(e)
         }
     }
-     fun update(){
-        runBlocking {
+      suspend fun update(){
+        withContext(Dispatchers.IO) {
           newsDb.dao.clearAll()
+            ApiService.page=1
            // newsDb.dao.clearSection(section)
             Log.i("remote","done with deleting the section =$section from db")
         }
@@ -150,8 +156,11 @@ class NewsRemoteMediator(
 
     override fun onUpdate(newDate: String, newOrder: String?) {
         date=newDate
-        order=newOrder
+        ApiService.order=newOrder
         Log.i("remote ","value passed to remmote mediator : date=$newDate, order =$newOrder \n from date now is $fromDate")
-        update()
+        GlobalScope.launch {
+            update()
+        }
+
     }
 }

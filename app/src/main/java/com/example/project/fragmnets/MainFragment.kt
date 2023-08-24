@@ -86,6 +86,11 @@ class MainFragment : Fragment(),onApiSettingChangedListner {
         binding.floatingActionButton2.setOnClickListener {
             it.findNavController().navigate(R.id.action_primaryFragment_to_settingsFragment)
         }
+        binding.swipeRefresh.setOnRefreshListener{
+            adapter.refresh()
+            Log.i("remote","swipe refresh is doing well")
+            binding.swipeRefresh.isRefreshing=false
+        }
         return binding.root
     }
 
@@ -97,6 +102,4 @@ class MainFragment : Fragment(),onApiSettingChangedListner {
         super.onResume()
         Log.i("remote","on resume of fragment main called")
     }
-
-
 }

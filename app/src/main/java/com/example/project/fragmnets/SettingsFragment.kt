@@ -20,6 +20,8 @@ import java.util.Locale
 class SettingsFragment : PreferenceFragmentCompat(),Preference.OnPreferenceChangeListener {
     var previousTheme:String?="init"
     var previousFont:String?="init"
+    var previousDate:Long=0
+    var preciousOrder:String?="init"
     companion object {
         var fontScaleChangedListener: FontScaleChangedListener? = null
     }
@@ -42,6 +44,7 @@ class SettingsFragment : PreferenceFragmentCompat(),Preference.OnPreferenceChang
          // Check if the time is not the default value
             val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val formattedDate = dateFormat.format(Date(time))
+            val previousDateString=dateFormat.format(Date(previousDate))
             Log.i("remote", "time is =$formattedDate and the orfer is =$order")
             // Now, `formattedDate` contains the date in the desired format
             // You can use it as needed
@@ -54,8 +57,10 @@ class SettingsFragment : PreferenceFragmentCompat(),Preference.OnPreferenceChang
             themeChangeListener?.onThemeChanged(selectedTheme)
             Log.i("remote","theme is cahnged and changed theme is =$selectedTheme")
         }
-        apiChangeListener?.onUpdate(formattedDate,order)
-        apiChangeListenerFrag?.onUpdate(formattedDate,order)
+        if(formattedDate!=previousDateString||order!=preciousOrder) {
+            apiChangeListener?.onUpdate(formattedDate, order)
+            apiChangeListenerFrag?.onUpdate(formattedDate, order)
+        }
 
     }
      fun onTextSizePreferenceChanged(selectedTextSizePreference: String) {
@@ -87,6 +92,8 @@ class SettingsFragment : PreferenceFragmentCompat(),Preference.OnPreferenceChang
         datePickerPreference.setDefaultValue(lastWeekDate.time)
         datePickerPreference.onPreferenceChangeListener = this
 
+        preciousOrder=sp.getString("order_by","newest")
+        previousDate=sp.getLong("date_preference",0)
         preferenceScreen.addPreference(datePickerPreference)
     }
     override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
