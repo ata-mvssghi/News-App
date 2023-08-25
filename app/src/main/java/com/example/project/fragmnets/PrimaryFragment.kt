@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.project.adapters.ViewPagerAdapter
-import com.example.project.databinding.FragmentPrimaryBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -25,7 +24,7 @@ class PrimaryFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val binding=FragmentPrimaryBinding.inflate(inflater)
+        val binding=com.example.project.databinding.FragmentPrimaryBinding.inflate(inflater)
         drawerLayout = binding.drawerLayout;
         viewPager = binding.viewPager;
         tabLayout = binding.tabLayout;

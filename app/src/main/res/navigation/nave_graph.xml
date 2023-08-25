@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nave_graph"
     app:startDestination="@id/primaryFragment">
 
@@ -15,9 +16,20 @@
     <fragment
         android:id="@+id/primaryFragment"
         android:name="com.example.project.PrimaryFragment"
-        android:label="PrimaryFragment" >
+        android:label="PrimaryFragment">
         <action
             android:id="@+id/action_primaryFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_primaryFragment_to_mainFragment2"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.project.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_primaryFragment"
+            app:destination="@id/primaryFragment" />
     </fragment>
 </navigation>

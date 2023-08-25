@@ -4,7 +4,9 @@ import AppModule.provideNewsApi
 import AppModule.provideNewsDataBase
 import AppModule.provideNewsPager
 import ViewModelFactory
+import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -17,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.paging.Pager
 import androidx.paging.RemoteMediator
 import androidx.preference.PreferenceManager
@@ -47,12 +50,13 @@ class MainFragment : Fragment(),onApiSettingChangedListner {
     private lateinit var viewModel: NEwsViewModel
     lateinit var category: String
     lateinit var adapter: NewsAdpater
+    lateinit var binding:FragmentMainBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding=FragmentMainBinding.inflate(inflater)
+         binding=FragmentMainBinding.inflate(inflater)
         var mysection:String?="initial value"
         this.arguments?.let {
             category= it.getString("section","some default value")
@@ -102,4 +106,13 @@ class MainFragment : Fragment(),onApiSettingChangedListner {
         super.onResume()
         Log.i("remote","on resume of fragment main called")
     }
-}
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        adapter.setOnItemClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it.webUrl))
+            binding.root.context.startActivity(intent)
+            }
+        }
+    }
