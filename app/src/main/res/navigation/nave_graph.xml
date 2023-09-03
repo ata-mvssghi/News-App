@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_primaryFragment_to_mainFragment2"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_primaryFragment_to_webView"
+            app:destination="@id/webView" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -31,5 +34,14 @@
         <action
             android:id="@+id/action_mainFragment_to_primaryFragment"
             app:destination="@id/primaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webView"
+        android:name="com.example.project.fragmnets.WebView"
+        android:label="fragment_web_view"
+        tools:layout="@layout/fragment_web_view" >
+        <argument
+            android:name="news"
+            app:argType="com.example.project.domain.NewsFeed" />
     </fragment>
 </navigation>

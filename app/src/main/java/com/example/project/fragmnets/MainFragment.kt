@@ -111,8 +111,11 @@ class MainFragment : Fragment(),onApiSettingChangedListner {
         super.onViewCreated(view, savedInstanceState)
 
         adapter.setOnItemClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it.webUrl))
-            binding.root.context.startActivity(intent)
+//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it.webUrl))
+//            binding.root.context.startActivity(intent)
+            val bundle=Bundle()
+            bundle.putSerializable("news",it)
+            findNavController().navigate(R.id.action_primaryFragment_to_webView,bundle)
             }
         }
     }
