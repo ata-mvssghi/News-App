@@ -29,7 +29,7 @@ This Android application leverages "The Guardian" API to fetch news articles usi
 1. Clone the repository to your local machine.
 
    ```bash
-  https://github.com/ata-mvssghi/Fp-Room.git
+  https://github.com/ata-mvssghi/News-App.git
    ```
 
 2. Open the project in Android Studio.
