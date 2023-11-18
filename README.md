@@ -4,6 +4,8 @@
 
 This Android application leverages "The Guardian" API to fetch news articles using the Retrofit library. The retrieved data is stored in a Room database for efficient offline access. The app features a user-friendly interface with a ViewPager containing six different pages (fragments), each focusing on a specific subject such as sports, science, general news, society, and more.
 
+![Screenshot_2023-09-12-23-45-57-062_com example project (1)](https://github.com/ata-mvssghi/News-App/assets/99190904/db738041-a70e-45a1-b003-866e5c3aafe6)
+
 ![Screenshot_2023-09-12-23-46-03-564_com example project](https://github.com/ata-mvssghi/News-App/assets/99190904/a819f47e-b48e-467d-b33e-08091d0481fe)
 
 ![Screenshot_2023-09-12-23-45-59-327_com example project](https://github.com/ata-mvssghi/News-App/assets/99190904/c21b776e-87e9-478e-b4c2-af15df84a5e9)
