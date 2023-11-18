@@ -43,6 +43,10 @@ This Android application leverages "The Guardian" API to fetch news articles usi
 - RecyclerView: [link to RecyclerView](https://developer.android.com/jetpack/androidx/releases/recyclerview)
 - coroutines
 
+![Screenshot_2023-09-12-23-46-03-564_com example project](https://github.com/ata-mvssghi/News-App/assets/99190904/a819f47e-b48e-467d-b33e-08091d0481fe)
+![Screenshot_2023-09-12-23-45-59-327_com example project](https://github.com/ata-mvssghi/News-App/assets/99190904/c21b776e-87e9-478e-b4c2-af15df84a5e9)
+![Screenshot_2023-09-12-23-48-45-996_com example project](https://github.com/ata-mvssghi/News-App/assets/99190904/c3163805-927d-4b6e-92d5-373f4fd949a1)
+
 ## Contributing
 
 Feel free to contribute by opening issues, suggesting features, or submitting pull requests. Your contributions are greatly appreciated.
